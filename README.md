@@ -18,11 +18,11 @@ $ terminus wraith --config
 ```
 Use the previous configuration or prompt for new pages to compare the my-site.test and my-site.prod environments and then generate snapshots:
 ```
-$ terminus wraith --sites=my-site.test,my-site.prod
+$ terminus wraith --sites my-site.test,my-site.prod
 ```
 Use the previous configuration or prompt for new environments to compare the /, /about and /news pages and then generate snapshots:
 ```
-$ terminus wraith --paths=home=/,about=/about,news=/news
+$ terminus wraith --paths home=/,about=/about,news=/news
 ```
 Use the previous configuration or prompt for new environments, crawl to detect pages and then generate snapshots:
 ```
