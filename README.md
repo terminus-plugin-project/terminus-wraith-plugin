@@ -1,6 +1,6 @@
 # Terminus Wraith Plugin
 
-Wraith - A Terminus plugin to assist with visual regression testing of Pantheon site environments.
+Wraith - A Terminus plugin to assist with visual regression testing of [Pantheon](https://pantheon.io/) site environments.
 
 ## Usage:
 ```
@@ -22,9 +22,9 @@ $ terminus wraith --sites=my-site.test,my-site.prod
 ```
 Use the previous configuration or prompt for new environments to compare the /, /about and /news pages and then generate snapshots:
 ```
-$ terminus wraith --pages=home=/,about=/about,news=/news
+$ terminus wraith --paths=home=/,about=/about,news=/news
 ```
-Use the previous configuration or prompt for new environments, craw for pages and then generate snapshots:
+Use the previous configuration or prompt for new environments, crawl to detect pages and then generate snapshots:
 ```
 $ terminus wraith --spider
 ```
