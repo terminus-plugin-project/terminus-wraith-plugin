@@ -26,7 +26,7 @@ class WraithCommand extends TerminusCommand implements SiteAwareInterface
      * @option array $sites A comma separated list of site environments to compare in `site-name.env` format. Example: my-site.test,my-site.prod
      * @option array $paths A comma separated list of name=value relative paths to compare. Example: home=/,about=/about,news=/news,etc.
      * @option bool $config Enable configuration mode
-     * @option bool $spider Craw to detect pages
+     * @option bool $spider Crawl to detect pages
      *
      * @usage [--sites site-name.test,site-name.prod --paths home=/,about=/about,news=/news,... --config --spider]
      *     Generate snapshots to visually compare various pages of different site environments.
@@ -129,7 +129,7 @@ class WraithCommand extends TerminusCommand implements SiteAwareInterface
             $this->putYaml($capture_file, $capture_data);
         }
 
-        // Craw to detect pages.
+        // Crawl to detect pages.
         if ($options['spider']) {
             $capture_data = $this->getYaml($capture_file);
             if (isset($capture_data['paths'])) {
