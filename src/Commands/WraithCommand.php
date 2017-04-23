@@ -3,7 +3,7 @@
 namespace TerminusPluginProject\TerminusWraith\Commands;
 
 use Pantheon\Terminus\Commands\TerminusCommand;
-use Pantheon\Terminus\Exceptions\TerminusException;
+use Pantheon\Terminus\Exceptions\TerminusNotFoundException;
 use Pantheon\Terminus\Site\SiteAwareInterface;
 use Pantheon\Terminus\Site\SiteAwareTrait;
 use Symfony\Component\Yaml\Yaml;
@@ -42,7 +42,7 @@ class WraithCommand extends TerminusCommand implements SiteAwareInterface
             exec('wraith setup', $messages, $return_var);
             if (!empty($messages)) {
                 foreach ($messages as $message) {
-                    $this->io()->writeln($message);
+                    $this->log()->notice($message);
                 }
             }
         }
@@ -140,7 +140,7 @@ class WraithCommand extends TerminusCommand implements SiteAwareInterface
             exec('wraith spider ' . $capture_file, $messages, $return_var);
             if (!empty($messages)) {
                 foreach ($messages as $message) {
-                    $this->io()->writeln($message);
+                    $this->log()->notice($message);
                 }
             }
         }
@@ -149,7 +149,7 @@ class WraithCommand extends TerminusCommand implements SiteAwareInterface
         exec('wraith capture ' . $capture_file, $messages, $return_var);
         if (!empty($messages)) {
             foreach ($messages as $message) {
-                $this->io()->writeln($message);
+                $this->log()->notice($message);
             }
         }
 
