@@ -23,15 +23,16 @@ class WraithCommand extends TerminusCommand implements SiteAwareInterface
      *
      * @command wraith
      *
-     * @option array $sites A comma separated list of site environments to compare in `site-name.env` format. Example: my-site.test,my-site.prod
-     * @option array $paths A comma separated list of name=value relative paths to compare. Example: home=/,about=/about,news=/news,etc.
+     * @option string $sites A comma separated list of site environments to compare in `site-name.env` format. Example: my-site.test,my-site.prod
+     * @option string $paths A comma separated list of name=value relative paths to compare. Example: home=/,about=/about,news=/news,etc.
      * @option bool $config Enable configuration mode
      * @option bool $spider Crawl to detect pages
      *
      * @usage [--sites site-name.test,site-name.prod --paths home=/,about=/about,news=/news,... --config --spider]
      *     Generate snapshots to visually compare various pages of different site environments.
      */
-    public function wraith($options = ['sites' => [], 'paths' => [], 'config' => false, 'spider' => false]) {
+    public function wraith($options = ['sites' => '', 'paths' => '', 'config' => false, 'spider' => false])
+    {
 
         $this->checkRequirements();
 
@@ -53,34 +54,17 @@ class WraithCommand extends TerminusCommand implements SiteAwareInterface
         }
 
         // Configuration requested.
-        if ($options['config']) {
+        if ($options['config'] || $options['sites'] || $options['paths']) {
             // Extract capture data.
             $capture_data = $this->getYaml($capture_file);
 
             // Get the sites to compare.
-            if (empty($options['sites'])) {
-                $creds = array();
+            if (!$options['sites']) {
                 $site_envs = array();
                 $site_envs[] = $this->io()->ask('Enter the source in `site-name.env` format');
-                $login = $this->io()->confirm('Does this environment require a login?');
-                if (!$login) {
-                    $creds[$site_envs[0]] = '';
-                } else {
-                    $user = $this->io()->ask('Enter the username');
-                    $pass = $this->io()->askHidden('Enter the password');
-                    $creds[$site_envs[0]] = "${user}:${pass}@";
-                }
                 $site_envs[] = $this->io()->ask('Enter the target in `site-name.env` format');
-                $login = $this->io()->confirm('Does this environment require a login?');
-                if (!$login) {
-                    $creds[$site_envs[1]] = '';
-                } else {
-                    $user = $this->io()->ask('Enter the username');
-                    $pass = $this->io()->askHidden('Enter the password');
-                    $creds[$site_envs[1]] = "${user}:${pass}@";
-                }
             } else {
-                $site_envs = explode(',', $options['sites'][0]);
+                $site_envs = explode(',', $options['sites']);
             }
 
             // Get the site domains.
@@ -89,7 +73,15 @@ class WraithCommand extends TerminusCommand implements SiteAwareInterface
                 list(, $env) = $this->getSiteEnv($site_env);
                 $domain_info = $env->getDomains()->serialize();
                 foreach ($domain_info as $info) {
-                    $domains[$info['environment']] = 'http://' . $creds[$site_env] . $info['domain'];
+                    $creds = '';
+                    if (!$options['no-interaction']) {
+                        if ($this->io()->confirm("Does ${info['domain']} require a login?")) {
+                            $user = $this->io()->ask('Enter the username');
+                            $pass = $this->io()->askHidden('Enter the password');
+                            $creds = "${user}:${pass}@";
+                        }
+                    }
+                    $domains[$info['environment']] = 'http://' . $creds . $info['domain'];
                 }
             }
             $capture_data['domains'] = $domains;
@@ -97,7 +89,7 @@ class WraithCommand extends TerminusCommand implements SiteAwareInterface
             // Get the site paths.
             if (!$options['spider']) {
                 $paths = array();
-                if (empty($options['paths'])) {
+                if (!$options['paths']) {
                     $path = $options['yes'] ? '' : '/';
                     while ($path) {
                         if ($name = $this->io()->ask('Enter the name for a relative path or `0` to cancel', 0)) {
@@ -105,7 +97,7 @@ class WraithCommand extends TerminusCommand implements SiteAwareInterface
                                 $paths[$name] = $path;
                             }
                         } else {
-                            $path = 0;
+                            $path = '';
                         }
                     }
                     // Need at least one page to compare.
@@ -113,7 +105,7 @@ class WraithCommand extends TerminusCommand implements SiteAwareInterface
                         $paths['home'] = '/';
                     }
                 } else {
-                    $pairs = explode(',', $options['paths'][0]);
+                    $pairs = explode(',', $options['paths']);
                     foreach ($pairs as $pair) {
                         $values = explode('=', $pair);
                         $paths[$values[0]] = $values[1];
@@ -152,7 +144,6 @@ class WraithCommand extends TerminusCommand implements SiteAwareInterface
                 $this->log()->notice($message);
             }
         }
-
     }
 
     /**
