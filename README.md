@@ -16,11 +16,11 @@ Prompt for the environments and pages to compare and then generate snapshots:
 ```
 $ terminus wraith --config
 ```
-Use the previous configuration or prompt for new pages to compare the my-site.test and my-site.prod environments and then generate snapshots:
+Prompt for new pages to compare the my-site.test and my-site.prod environments and then generate snapshots:
 ```
 $ terminus wraith --sites my-site.test,my-site.prod
 ```
-Use the previous configuration or prompt for new environments to compare the /, /about and /news pages and then generate snapshots:
+Prompt for new environments to compare the /, /about and /news pages and then generate snapshots:
 ```
 $ terminus wraith --paths home=/,about=/about,news=/news
 ```
@@ -41,6 +41,17 @@ composer create-project -d ~/.terminus/plugins terminus-plugin-project/terminus-
 ## Configuration:
 
 Install [Wraith](http://bbc-news.github.io/wraith/) for your [operating system](http://bbc-news.github.io/wraith/os-install.html).  See [http://bbc-news.github.io/wraith/os-install.html](http://bbc-news.github.io/wraith/os-install.html).
+
+## Testing:
+
+Replace `my-site.test` and `my-site.prod` with the site environments you want to test:
+```
+export TERMINUS_SOURCE_SITE_ENV=my-site.test
+export TERMINUS_TARGET_SITE_ENV=my-site.prod
+cd ~/.terminus/plugins/terminus-wraith-plugin
+composer install
+composer test
+```
 
 ## Help:
 Run `terminus help wraith` for help.

@@ -8,5 +8,8 @@ vendor
 # Ignore testing directories
 bats
 bin
+configs
 libexec
+javascript
 share
+shots
