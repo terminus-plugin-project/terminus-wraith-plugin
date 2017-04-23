@@ -1,0 +1,37 @@
+{
+    "name": "terminus-plugin-project/terminus-wraith-plugin",
+    "description": "Wraith - A Terminus plugin to assist with visual regression testing of Pantheon site environments.",
+    "homepage": "https://github.com/terminus-plugin-project/terminus-wraith-plugin",
+    "authors": [
+        {
+            "name": "Ed Reel",
+            "email": "edreel@gmail.com",
+            "homepage": "https://github.com/uberhacker",
+            "role": "Developer"
+        }
+    ],
+    "type": "terminus-plugin",
+    "keywords": [
+        "pantheon",
+        "terminus",
+        "regression",
+        "testing",
+        "wraith",
+        "plugin"
+    ],
+    "support": {
+        "issues": "https://github.com/terminus-plugin-project/terminus-wraith-plugin/issues"
+    },
+    "license": "MIT",
+    "require": {
+        "php": "^5.5 || ^7.0"
+    },
+    "autoload": {
+        "psr-4": { "TerminusPluginProject\\TerminusWraith\\": "src" }
+    },
+    "extra": {
+        "terminus": {
+            "compatible-version": "^1"
+        }
+    }
+}
