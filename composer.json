@@ -34,9 +34,11 @@
         "bats": "TERMINUS_PLUGINS_DIR=.. bin/bats tests",
         "cs": "phpcs --standard=PSR2 -n src",
         "cbf": "phpcbf --standard=PSR2 -n src",
+        "wraith-test": "terminus wraith --sites $TERMINUS_SOURCE_SITE_ENV,$TERMINUS_TARGET_SITE_ENV --paths home=/,user=/user -n",
         "test": [
             "@install-bats",
-            "@bats"
+            "@bats",
+            "@wraith-test"
         ]
     },
     "autoload": {
