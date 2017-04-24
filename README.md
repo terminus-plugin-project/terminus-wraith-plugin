@@ -1,5 +1,8 @@
 # Terminus Wraith Plugin
 
+[![CircleCI](https://circleci.com/gh/terminus-plugin-project/terminus-wraith-plugin.svg?style=shield)](https://circleci.com/gh/terminus-plugin-project/terminus-wraith-plugin)
+[![Terminus v1.x Compatible](https://img.shields.io/badge/terminus-v1.x-green.svg)](https://github.com/terminus-plugin-project/terminus-wraith-plugin/tree/1.x)
+
 Wraith - A Terminus plugin to assist with visual regression testing of [Pantheon](https://pantheon.io/) site environments.
 
 ## Usage:
